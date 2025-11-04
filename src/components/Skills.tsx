@@ -64,8 +64,7 @@ export default function Skills() {
         Skills
       </motion.h2>
 
-      {/* Two Column Grid for Categories */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+      <div className="max-w-7xl mx-auto space-y-16">
         {Object.entries(grouped).map(([category, items], idx) => (
           <motion.div
             key={category}
@@ -73,9 +72,8 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: idx * 0.1 }}
-            className="w-full"
           >
-            {/* Category Title */}
+            {/* Category Title - Smaller, Different Font */}
             <motion.h3
               className="text-sm font-light tracking-[0.3em] uppercase text-cyan-300/70 mb-8 text-center"
               style={{ fontFamily: 'Courier New, monospace' }}
@@ -86,8 +84,8 @@ export default function Skills() {
               {category}
             </motion.h3>
 
-            {/* Skills Grid - Logos with Names */}
-            <div className="grid grid-cols-3 gap-6 md:gap-8">
+            {/* Skills Grid - Only Logos */}
+            <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {items.map((skill, skillIdx) => {
                 const imageUrl = getImageUrl(skill.imageURL);
                 
@@ -104,10 +102,11 @@ export default function Skills() {
                       stiffness: 100
                     }}
                     whileHover={{
-                      scale: 1.1,
-                      transition: { duration: 0.3 }
+                      scale: 1.2,
+                      rotateZ: [0, -5, 5, -5, 0],
+                      transition: { duration: 0.4 }
                     }}
-                    className="group relative flex flex-col items-center"
+                    className="group relative"
                   >
                     {/* Glowing Border Effect */}
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/50 via-blue-500/50 to-purple-500/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -127,7 +126,6 @@ export default function Skills() {
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
-                            target.parentElement!.innerHTML = `<div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-xl md:text-2xl font-bold text-black">${skill.name.charAt(0).toUpperCase()}</div>`;
                           }}
                         />
                       ) : skill.icon ? (
@@ -148,10 +146,10 @@ export default function Skills() {
                       )}
                     </div>
 
-                    {/* Skill Name - Always Visible Below Logo */}
-                    <p className="mt-3 text-cyan-300 text-xs md:text-sm font-medium text-center group-hover:text-cyan-200 transition-colors duration-300">
+                    {/* Tooltip - Skill Name on Hover */}
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/90 text-cyan-300 text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none border border-cyan-400/30">
                       {skill.name}
-                    </p>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -167,12 +165,12 @@ export default function Skills() {
             key={i}
             className="absolute w-1 h-1 bg-cyan-400/30 rounded-full"
             initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
             }}
             animate={{
-              y: [null, Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080)],
-              x: [null, Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920)],
+              y: [null, Math.random() * window.innerHeight],
+              x: [null, Math.random() * window.innerWidth],
             }}
             transition={{
               duration: Math.random() * 10 + 10,
