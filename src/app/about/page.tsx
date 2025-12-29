@@ -7,46 +7,38 @@ import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const ABOUT = {
-  name: "Subramanaya Prabhu",
-  tagline: "I can Make You Think",
-  dobISO: "2005-04-09",
+  name: "Swathi Poojary",
+  tagline: "live your life its yours anyway",
+  dobISO: "2004-06-18",
   location: "Udupi, India",
-  company: "Averigo Privated Limited",
-  email: "subramanyaprabhuu1001@gmail.com",
-  phone: "+91 7795700861",
-  bio: `I am a thinker, a l human who loves thinking deeply about life, systems, and ideas. 
-An ambivert by nature — I enjoy meaningful conversations as much as quiet reflection. 
-I'm passionate about acquiring knowledge across any field — from philosophy to technology, 
-from psychology to chess strategy. Coding is not just work; it's a way of thinking, solving, and creating.`,
+  colleege: "MITE",
+  email: "poojaryswathi0209@gmail.com",
+  phone: "+91 100",
+  bio: ` . 
+     Highly motivated MCA graduate seeking a challenging entry-level position in a dynamic organization. 
+     Possesses a strong foundation in programming and web development, eager to leverage this knowledge for roles that contribute to the advancement of the IT field.
+ `,
   socials: {
-    github: "https://github.com/subbu-2005/",
-    linkedin: "https://www.linkedin.com/in/subramanya119/",
-    twitter: "",
-    instagram: "https://www.instagram.com/_subbu119?igsh=dGszODRtNnV5ZjV3",
-    email: "mailto:subramanyaprabhuu1001@gmail.com",
+    github: "https://github.com/swathii-2004/",
+    linkedin: "linkedin.com/in/swathi-poojary-90891b3a1",
+    twitter: "twiter.com",
+    instagram: "instagram.com",
+    email: "poojaryswathi0209@gmail.com",
   },
   otherSkills: [
-    "Odoo Development",
+
     "Python",
     "Communication",
-    "Debating",
-    "Chess Strategy",
+    "quick learner",
+    "web hosting",
+    "Prompt Engineer",
+    
+  
   ],
   hobbies: [
+   
     {
-      name: "Writing",
-      img: "https://img.freepik.com/premium-vector/hand-writing-notebook-with-pen-white-background-vector-illustration_345238-4637.jpg?semt=ais_hybrid&w=740&q=80",
-    },
-    {
-      name: "Thinking",
-      img: "https://png.pngtree.com/png-vector/20230220/ourmid/pngtree-thinking-man-vector-illustration-hd-transparent-png-image_6610360.png",
-    },
-    {
-      name: "Reading",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG1E3IhHdNFqMjp1LbT04bZgyz2VxV8jvYmg&s",
-    },
-    {
-      name: "Watching Movies",
+      name: "Watching drama",
       img: "https://cdn-icons-png.flaticon.com/512/4222/4222071.png",
     },
     {
@@ -528,4 +520,5 @@ export default function AboutPage() {
       </footer>
     </>
   );
+
 }
