@@ -50,7 +50,7 @@ async function updateProfile() {
 
     const profileData = {
       name: "swathi poojary",
-      title: "Full-Stack Developer & Thinker",
+      title: "Full-Stack Developer ",
       socials: {
         email: "poojaryswathi0209@gmail.com",
         linkedin: "linkedin.com/in/swathi-poojary-90891b13a1",
