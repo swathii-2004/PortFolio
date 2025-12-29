@@ -188,7 +188,7 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <p>{'// '} Full-Stack Developer & Thinker</p>
+                <p>{'// '} Full-Stack Developer </p>
                 <p className="text-white">
                   {'<h1>'} {profile.name} {'</h1>'}
                 </p>
@@ -210,8 +210,8 @@ export default function Hero() {
             {/* DARK: Large styled title */}
             {isDark && (
               <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-                <span className="block">I</span>
-                <span className="block text-gray-400">Think</span>
+                <span className="block">lets</span>
+                <span className="block text-gray-400">code</span>
                 <span className="block">Deeply</span>
               </h1>
             )}
@@ -434,4 +434,5 @@ export default function Hero() {
     </section>
   );
 }
+
  
