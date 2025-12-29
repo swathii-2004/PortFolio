@@ -11,7 +11,8 @@ const ABOUT = {
   tagline: "live your life its yours anyway",
   dobISO: "2004-06-18",
   location: "Udupi, India",
-  college: "MITE",
+  colleege: "MITE",
+  company: "MITE",
   email: "poojaryswathi0209@gmail.com",
   phone: "+91 100",
   bio: ` . 
@@ -244,7 +245,7 @@ export default function AboutPage() {
                   </div>
                   <div className="col-span-2">
                     <p className={`text-sm font-mono mb-1 ${isDark ? "text-gray-500" : "text-gray-600"}`}>Currently</p>
-                    <p className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.college}</p>
+                    <p className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.company}</p>
                   </div>
                 </div>
 
@@ -485,7 +486,7 @@ export default function AboutPage() {
               <h4 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Get In Touch</h4>
               <ul className={`space-y-2 text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 <li>
-                  <a
+                  
                     href={`mailto:${ABOUT.email}`}
                     className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
@@ -493,7 +494,7 @@ export default function AboutPage() {
                   </a>
                 </li>
                 <li>
-                  <a
+                  
                     href={`tel:${ABOUT.phone}`}
                     className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
@@ -522,5 +523,3 @@ export default function AboutPage() {
   );
 
 }
-
-
