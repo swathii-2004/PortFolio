@@ -280,14 +280,14 @@ export default function Contact() {
                 <p className={`text-sm mb-4 ${isDark ? "text-gray-400" : "text-gray-700"}`}>Feel free to reach out. I'm always open to new opportunities and interesting conversations.</p>
                 <div className="flex gap-3">
                   <motion.a
-                    href="mailto:subramanyaprabhuu1001@gmail.com"
+                    href="mailto:poojaryswathi0209@gmail.com"
                     whileHover={{ scale: 1.05 }}
                     className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${isDark ? "bg-white text-black hover:bg-gray-200" : "bg-blue-600 text-white hover:bg-blue-700"}`}
                   >
                     Email Me
                   </motion.a>
                   <motion.a
-                    href="https://linkedin.com"
+                    href="linkedin.com/in/swathi-poojary-90891b3a1"
                     target="_blank"
                     whileHover={{ scale: 1.05 }}
                     className="px-4 py-2 border border-white/30 text-white rounded-lg font-semibold hover:border-white/70 transition-all text-sm"
@@ -302,4 +302,5 @@ export default function Contact() {
       </div>
     </section>
   );
+
 }
