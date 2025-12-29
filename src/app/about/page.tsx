@@ -11,7 +11,7 @@ const ABOUT = {
   tagline: "live your life its yours anyway",
   dobISO: "2004-06-18",
   location: "Udupi, India",
-  colleege: "MITE",
+  college: "MITE",
   email: "poojaryswathi0209@gmail.com",
   phone: "+91 100",
   bio: ` . 
@@ -522,4 +522,5 @@ export default function AboutPage() {
   );
 
 }
+
 
