@@ -51,7 +51,7 @@ const ABOUT = {
       img: "https://png.pngtree.com/png-vector/20240930/ourmid/pngtree-retro-neon-video-game-controller-png-image_13929194.png",
     },
   ],
-  profileImage: "/Media.png", 
+  profileImage: "/Profile.jpg", 
 };
 
 // Social Media Icons
@@ -523,4 +523,5 @@ export default function AboutPage() {
   );
 
 }
+
 
