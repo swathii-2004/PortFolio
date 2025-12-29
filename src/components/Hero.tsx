@@ -182,20 +182,29 @@ export default function Hero() {
           >
             {/* DARK: Code-styled intro */}
             {isDark && (
-              <div className="font-mono text-sm text-gray-400 space-y-1">
+              <motion.div 
+                className="font-mono text-sm text-gray-400 space-y-1"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 <p>{'// '} Full-Stack Developer & Thinker</p>
                 <p className="text-white">
                   {'<h1>'} {profile.name} {'</h1>'}
                 </p>
-              </div>
+              </motion.div>
             )}
 
             {/* LIGHT: Clean intro */}
             {!isDark && (
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 <p className="text-blue-600 font-semibold tracking-widest uppercase text-sm">Welcome to my portfolio</p>
-                <h1 className="text-2xl text-gray-600 font-light">{profile.name}</h1>
-              </div>
+              </motion.div>
             )}
 
             {/* DARK: Large styled title */}
@@ -215,30 +224,61 @@ export default function Hero() {
               </h2>
             )}
 
+            {/* PROFILE NAME - HIGHLIGHTED & ANIMATED */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className={`text-3xl md:text-5xl font-bold tracking-tight ${
+                isDark ? "text-white" : "bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+              }`}
+            >
+              {profile.name}
+            </motion.h2>
+            
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className={`text-lg md:text-xl font-semibold mt-2 ${
+                isDark ? "text-gray-300" : "text-blue-600"
+              }`}
+            >
+              {profile.title}
+            </motion.p>
+
             {/* Description */}
-            <p
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
               className={`text-lg leading-relaxed max-w-md ${
                 isDark ? "text-gray-300" : "text-gray-600"
               }`}
             >
               {profile.bio.substring(0, 120)}...
-            </p>
+            </motion.p>
 
             {/* CTA Buttons - Completely Different Designs */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               {isDark ? (
                 <>
                   <motion.a
                     href="#projects"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-8 py-3 bg-white text-black rounded-lg font-mono font-semibold hover:bg-gray-200 transition-colors text-center"
+                    className="px-8 py-3 bg-white text-black rounded-lg font-mono font-semibold hover:bg-gray-200 transition-colors text-center shadow-lg"
                   >
                     {'<'} Explore Work {'/'}
                   </motion.a>
                   <motion.a
                     href="#contact"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, borderColor: "#ffffff", boxShadow: "0 0 20px rgba(255,255,255,0.1)" }}
                     whileTap={{ scale: 0.95 }}
                     className="px-8 py-3 border-2 border-white text-white rounded-lg font-mono font-semibold hover:bg-white/10 transition-colors text-center"
                   >
@@ -249,15 +289,15 @@ export default function Hero() {
                 <>
                   <motion.a
                     href="#projects"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 10px 40px rgba(37, 99, 235, 0.3)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all text-center"
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all text-center shadow-lg"
                   >
                     View Projects
                   </motion.a>
                   <motion.a
                     href="#contact"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(37, 99, 235, 0.2)", backgroundColor: "rgba(37, 99, 235, 0.05)" }}
                     whileTap={{ scale: 0.95 }}
                     className="px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-all text-center"
                   >
@@ -265,17 +305,31 @@ export default function Hero() {
                   </motion.a>
                 </>
               )}
-            </div>
+            </motion.div>
 
             {/* Social Links */}
-            <div className="flex gap-4 pt-6">
-              {iconButtons.map((btn) => (
+            <motion.div 
+              className="flex gap-4 pt-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              {iconButtons.map((btn, idx) => (
                 <motion.a
                   key={btn.key}
                   href={btn.href}
                   target={btn.key === "mail" ? "_self" : "_blank"}
                   rel="noreferrer"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 + idx * 0.1, duration: 0.5 }}
+                  whileHover={{ 
+                    scale: 1.2, 
+                    rotate: 5,
+                    boxShadow: isDark 
+                      ? "0 0 25px rgba(255,255,255,0.2)"
+                      : "0 0 25px rgba(37, 99, 235, 0.3)"
+                  }}
                   whileTap={{ scale: 0.9 }}
                   className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
                     isDark
@@ -286,7 +340,7 @@ export default function Hero() {
                   <btn.Icon className="w-5 h-5" />
                 </motion.a>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* RIGHT: Image Section */}
