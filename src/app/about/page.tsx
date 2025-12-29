@@ -244,7 +244,7 @@ export default function AboutPage() {
                   </div>
                   <div className="col-span-2">
                     <p className={`text-sm font-mono mb-1 ${isDark ? "text-gray-500" : "text-gray-600"}`}>Currently</p>
-                    <p className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.company}</p>
+                    <p className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.college}</p>
                   </div>
                 </div>
 
@@ -522,3 +522,4 @@ export default function AboutPage() {
   );
 
 }
+
