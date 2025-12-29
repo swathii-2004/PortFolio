@@ -6,7 +6,7 @@ import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="text-black min-h-screen">
+    <main className="text-white min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Fixed Navbar */}
       <Navbar />
 

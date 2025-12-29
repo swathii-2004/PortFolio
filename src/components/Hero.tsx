@@ -1,11 +1,10 @@
-// Hero.tsx - Complete Hero Component File
+﻿// Hero.tsx - Completely Redesigned with Unique Dark/Light Themes
 "use client";
 
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Satisfy } from "next/font/google";
-
-const satisfy = Satisfy({ subsets: ["latin"], weight: "400", display: "swap" });
+import { useTheme } from "@/context/ThemeContext";
+import { ChevronDown } from "lucide-react";
 
 type ProfileType = {
   name: string;
@@ -22,9 +21,6 @@ type ProfileType = {
   };
 };
 
-const BACKGROUND_URL =
-  "https://img.freepik.com/premium-photo/high-quality-desktop-wallpaper_941097-71826.jpg?semt=ais_hybrid&w=1600&q=80";
-
 const safeAsset = (url?: string) =>
   url && /^https?:\/\//i.test(url) ? url : (url || "/default.jpg");
 
@@ -36,6 +32,7 @@ const toHref = (value?: string, kind?: "url" | "email" | "phone") => {
   return value;
 };
 
+// Social icons
 const Icon = {
   github: (props: any) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -72,8 +69,12 @@ const Icon = {
 export default function Hero() {
   const [profile, setProfile] = useState<ProfileType | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const { isDark } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
+    setMounted(true);
     fetch("/api/profile", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => setProfile(d))
@@ -86,17 +87,9 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  if (!profile || !mounted) return null;
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [15, -15]);
-  const rotateY = useTransform(x, [-100, 100], [-15, 15]);
-
-  if (!profile) return null;
   const socials = profile.socials || {};
-
   const iconButtons = [
     socials.github && { key: "github", href: toHref(socials.github, "url"), Icon: Icon.github },
     socials.linkedin && { key: "linkedin", href: toHref(socials.linkedin, "url"), Icon: Icon.linkedin },
@@ -107,251 +100,284 @@ export default function Hero() {
   ].filter(Boolean) as Array<{ key: string; href: string; Icon: any }>;
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center pt-20 md:pt-24" id="home">
-      {/* Parallax Background */}
-      <motion.div 
-        className="absolute inset-0 -z-10"
-        style={{ y: backgroundY }}
-      >
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
-          style={{ backgroundImage: `url('${BACKGROUND_URL}')` }}
+    <section
+      className={`relative min-h-screen w-full overflow-hidden flex items-center justify-center pt-20 md:pt-24 transition-colors duration-300 ${
+        isDark ? "bg-black" : "bg-gradient-to-b from-white via-blue-50 to-indigo-50"
+      }`}
+      id="home"
+    >
+      {/* DARK MODE: Animated grid */}
+      {isDark && (
+        <motion.div
+          className="absolute inset-0 -z-10 opacity-10"
+          animate={{
+            backgroundPosition: ["0px 0px", "100px 100px"],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            backgroundImage: "linear-gradient(0deg, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            backgroundSize: "50px 50px"
+          }}
         />
-      </motion.div>
+      )}
 
-      {/* Animated Grid Overlay */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px] animate-pulse" />
+      {/* LIGHT MODE: Soft gradient background */}
+      {!isDark && (
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-indigo-300/20 rounded-full blur-3xl" />
+        </div>
+      )}
 
-      {/* Spotlight Effect */}
-      <motion.div
-        className="absolute -z-10 w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
-        style={{
-          background: "radial-gradient(circle, rgba(0,255,255,0.4) 0%, transparent 70%)",
-          left: mousePos.x - 300,
-          top: mousePos.y - 300,
-        }}
-        animate={{
-          left: mousePos.x - 300,
-          top: mousePos.y - 300,
-        }}
-        transition={{ type: "spring", damping: 30, stiffness: 200 }}
-      />
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+      {/* Blob animations - Different per theme */}
+      {isDark && (
+        <>
           <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-cyan-400/20 rounded-full"
-            initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
-            }}
+            className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-white to-gray-400 rounded-full blur-3xl opacity-5 -z-10"
             animate={{
-              y: [null, Math.random() * -500, Math.random() * 500],
-              x: [null, Math.random() * -200, Math.random() * 200],
-              scale: [1, 1.5, 1],
-              opacity: [0.2, 0.5, 0.2],
+              x: [0, 50, 0],
+              y: [0, 100, 0],
             }}
             transition={{
-              duration: Math.random() * 8 + 5,
+              duration: 15,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "easeInOut"
             }}
           />
-        ))}
-      </div>
+          <motion.div
+            className="absolute bottom-10 right-20 w-80 h-80 bg-gradient-to-bl from-white to-gray-400 rounded-full blur-3xl opacity-5 -z-10"
+            animate={{
+              x: [0, -80, 0],
+              y: [0, -50, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </>
+      )}
 
-      {/* Content */}
+      {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl px-6 md:px-12">
         <motion.div
-          className="grid md:grid-cols-[1fr_1.3fr] gap-12 items-center"
+          className={`grid md:gap-16 items-center ${
+            isDark ? "md:grid-cols-[1.2fr_1.3fr]" : "md:grid-cols-[1fr_1.2fr]"
+          }`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.8 }}
         >
-          {/* Profile Image with 3D Tilt - PNG OUTLINE ONLY */}
+          {/* LEFT: Text Content */}
           <motion.div
-            style={{ 
-              rotateX, 
-              rotateY,
-              transformStyle: "preserve-3d",
-            }}
-            onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              x.set(e.clientX - (rect.left + rect.width / 2));
-              y.set(e.clientY - (rect.top + rect.height / 2));
-            }}
-            onMouseLeave={() => {
-              x.set(0);
-              y.set(0);
-            }}
-            className="relative group perspective-1000"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6 md:space-y-8 order-2 md:order-1"
           >
-            {/* Image Container - No border, no rounded corners for outline PNG */}
-            <motion.div
-              className="relative"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <img
-                src={safeAsset(profile.profileImage)}
-                alt={profile.name}
-                className="w-full h-[350px] md:h-[450px] object-contain"
-                style={{ mixBlendMode: 'normal' }}
-              />
-              
-              {/* Scan Line Effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent pointer-events-none"
-                animate={{ y: ["0%", "200%"] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              />
-            </motion.div>
+            {/* DARK: Code-styled intro */}
+            {isDark && (
+              <div className="font-mono text-sm text-gray-400 space-y-1">
+                <p>{'// '} Full-Stack Developer & Thinker</p>
+                <p className="text-white">
+                  {'<h1>'} {profile.name} {'</h1>'}
+                </p>
+              </div>
+            )}
 
-            {/* Floating Badge */}
-            <motion.div
-              className="absolute -bottom-4 -right-4 bg-black/80 backdrop-blur-md border border-cyan-400 rounded-2xl px-6 py-3"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, type: "spring" }}
-            >
-              <p className="text-cyan-400 font-bold text-lg">Available</p>
-            </motion.div>
-          </motion.div>
+            {/* LIGHT: Clean intro */}
+            {!isDark && (
+              <div className="space-y-2">
+                <p className="text-blue-600 font-semibold tracking-widest uppercase text-sm">Welcome to my portfolio</p>
+                <h1 className="text-2xl text-gray-600 font-light">{profile.name}</h1>
+              </div>
+            )}
 
-          {/* Text Content */}
-          <div className="text-center md:text-left space-y-6">
-            {/* Name with Glitch Effect */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <motion.h1
-                className={`${satisfy.className} text-6xl md:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-500 italic drop-shadow-[0_0_30px_rgba(0,255,255,0.5)]`}
-                animate={{
-                  textShadow: [
-                    "0 0 20px rgba(0,255,255,0.5)",
-                    "0 0 40px rgba(0,255,255,0.8)",
-                    "0 0 20px rgba(0,255,255,0.5)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {profile.name}
-              </motion.h1>
-            </motion.div>
+            {/* DARK: Large styled title */}
+            {isDark && (
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
+                <span className="block">I</span>
+                <span className="block text-gray-400">Think</span>
+                <span className="block">Deeply</span>
+              </h1>
+            )}
 
-            {/* Title with Typing Effect */}
-            <motion.h2
-              className="text-2xl md:text-3xl text-cyan-400 font-mono"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              <span className="inline-block">{'<'}</span>
-              {profile.title}
-              <span className="inline-block">{'/>'}</span>
-              <motion.span
-                className="inline-block w-1 h-6 bg-cyan-400 ml-1"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-            </motion.h2>
+            {/* LIGHT: Gradient title */}
+            {!isDark && (
+              <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Think Deep.<br />
+                Code Smart.
+              </h2>
+            )}
 
-            {/* Bio */}
-            <motion.p
-              className="text-gray-200 text-lg leading-relaxed max-w-2xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+            {/* Description */}
+            <p
+              className={`text-lg leading-relaxed max-w-md ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}
             >
-              {profile.bio}
-            </motion.p>
+              {profile.bio.substring(0, 120)}...
+            </p>
 
-            {/* Social Icons - NO GLOW */}
-            <motion.div
-              className="flex flex-wrap gap-4 justify-center md:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              {iconButtons.map(({ key, href, Icon: Brand }, idx) => (
+            {/* CTA Buttons - Completely Different Designs */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              {isDark ? (
+                <>
+                  <motion.a
+                    href="#projects"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-white text-black rounded-lg font-mono font-semibold hover:bg-gray-200 transition-colors text-center"
+                  >
+                    {'<'} Explore Work {'/'}
+                  </motion.a>
+                  <motion.a
+                    href="#contact"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 border-2 border-white text-white rounded-lg font-mono font-semibold hover:bg-white/10 transition-colors text-center"
+                  >
+                    Get In Touch
+                  </motion.a>
+                </>
+              ) : (
+                <>
+                  <motion.a
+                    href="#projects"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all text-center"
+                  >
+                    View Projects
+                  </motion.a>
+                  <motion.a
+                    href="#contact"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-all text-center"
+                  >
+                    Let's Talk
+                  </motion.a>
+                </>
+              )}
+            </div>
+
+            {/* Social Links */}
+            <div className="flex gap-4 pt-6">
+              {iconButtons.map((btn) => (
                 <motion.a
-                  key={key}
-                  href={href}
-                  target={key === "mail" || key === "phone" ? "_self" : "_blank"}
+                  key={btn.key}
+                  href={btn.href}
+                  target={btn.key === "mail" ? "_self" : "_blank"}
                   rel="noreferrer"
-                  className="relative group"
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + idx * 0.1 }}
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+                    isDark
+                      ? "bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40 text-white"
+                      : "bg-blue-100 border border-blue-300 hover:bg-blue-200 text-blue-600"
+                  }`}
                 >
-                  <div className="relative w-14 h-14 rounded-xl bg-black/40 backdrop-blur-md border border-cyan-400/40 flex items-center justify-center text-cyan-400 hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300">
-                    <Brand className="w-6 h-6" />
-                  </div>
+                  <btn.Icon className="w-5 h-5" />
                 </motion.a>
               ))}
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex gap-4 justify-center md:justify-start flex-wrap"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-            >
-              <motion.a
-                href="#projects"
-                className="relative px-8 py-3 rounded-xl font-bold text-black bg-cyan-400 overflow-hidden group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="relative z-10">View Projects</span>
+          {/* RIGHT: Image Section */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="order-1 md:order-2 relative"
+          >
+            {isDark ? (
+              // DARK: 3D tilted frame with glow
+              <div className="relative h-96 md:h-[500px]">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
+                  className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-white/20 to-gray-400/20 blur-2xl -z-10"
+                  animate={{
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                  }}
                 />
-              </motion.a>
-              
-              <motion.a
-                href="#contact"
-                className="relative px-8 py-3 rounded-xl font-bold border-2 border-cyan-400 text-cyan-400 overflow-hidden group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="relative z-10 group-hover:text-black transition-colors duration-300">Contact Me</span>
                 <motion.div
-                  className="absolute inset-0 bg-cyan-400"
-                  initial={{ y: "100%" }}
-                  whileHover={{ y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="relative rounded-2xl overflow-hidden border-2 border-white/30 backdrop-blur-sm bg-gradient-to-br from-white/10 to-gray-400/10 h-full"
+                >
+                  <img
+                    src={safeAsset(profile.profileImage)}
+                    alt={profile.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent pointer-events-none"
+                    animate={{ y: ["0%", "200%"] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                  />
+                </motion.div>
+              </div>
+            ) : (
+              // LIGHT: Clean modern frame with shadow
+              <div className="relative h-96 md:h-[500px]">
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  className="relative rounded-3xl overflow-hidden border-8 border-white shadow-2xl h-full bg-white"
+                >
+                  <img
+                    src={safeAsset(profile.profileImage)}
+                    alt={profile.name}
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+                {/* Floating accent circles */}
+                <motion.div
+                  className="absolute -top-8 -right-8 w-32 h-32 bg-blue-400/30 rounded-full blur-2xl -z-10"
+                  animate={{
+                    x: [0, 20, 0],
+                    y: [0, -20, 0],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                  }}
                 />
-              </motion.a>
-            </motion.div>
-          </div>
+                <motion.div
+                  className="absolute -bottom-8 -left-8 w-32 h-32 bg-indigo-400/30 rounded-full blur-2xl -z-10"
+                  animate={{
+                    x: [0, -20, 0],
+                    y: [0, 20, 0],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                  }}
+                />
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator - Different style per theme */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <ChevronDown
+            className={`w-6 h-6 ${isDark ? "text-gray-400" : "text-blue-500"}`}
+          />
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 border-2 border-cyan-400 rounded-full flex justify-center p-2">
-          <motion.div
-            className="w-1.5 h-1.5 bg-cyan-400 rounded-full"
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </div>
-      </motion.div>
     </section>
   );
 }
+ 

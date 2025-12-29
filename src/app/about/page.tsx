@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useTheme } from "@/context/ThemeContext";
+import { ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const ABOUT = {
   name: "Subramanaya Prabhu",
@@ -58,9 +61,6 @@ from psychology to chess strategy. Coding is not just work; it's a way of thinki
   profileImage: "/profile.jpg", 
 };
 
-const BACKGROUND_URL =
-  "https://img.freepik.com/premium-photo/high-quality-desktop-wallpaper_941097-71826.jpg?semt=ais_hybrid&w=1600&q=80";
-
 // Social Media Icons
 const SocialIcons = {
   github: (
@@ -103,6 +103,15 @@ const glass =
   "rounded-2xl border border-white/10 bg-black/50 backdrop-blur-md shadow-lg";
 
 export default function AboutPage() {
+  const { isDark } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   const age = calcAge(ABOUT.dobISO);
 
   const socialItems = Object.entries(ABOUT.socials)
@@ -111,260 +120,338 @@ export default function AboutPage() {
 
   return (
     <>
-      <main className="relative min-h-screen pt-24 pb-20 px-4 sm:px-6 md:px-8 text-white overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('${BACKGROUND_URL}')`,
-          }}
-        />
+      <main
+        className={`relative min-h-screen pt-24 pb-20 px-4 sm:px-6 md:px-8 overflow-hidden transition-colors duration-300 ${
+          isDark
+            ? "text-white bg-black"
+            : "text-gray-900 bg-white"
+        }`}
+      >
+        {/* Subtle background gradient */}
+        {isDark ? (
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black via-gray-950 to-black" />
+        ) : (
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-gray-50 to-blue-50" />
+        )}
 
-        {/* Advanced Back Button */}
-        <div className="max-w-6xl mx-auto mb-8">
+        {/* Advanced Back Button - Different Styles Per Theme */}
+        <div className="max-w-7xl mx-auto mb-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-xl bg-black/40 backdrop-blur-md border border-cyan-400/30 hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
-            >
-              <motion.span
-                className="text-cyan-400 text-lg"
-                animate={{ x: [0, -4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+            {isDark ? (
+              // DARK: Monospace/tech style
+              <Link
+                href="/"
+                className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-xl bg-white/5 backdrop-blur-md border border-white/20 hover:border-white/50 hover:bg-white/10 transition-all duration-300"
               >
-                ←
-              </motion.span>
-              <span className="text-cyan-400 font-mono text-sm italic tracking-wide">
-                {'<'} Back to Home {'/>'}
-              </span>
-            </Link>
+                <motion.span
+                  className="text-white text-lg font-mono"
+                  animate={{ x: [0, -4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  {'<'}
+                </motion.span>
+                <span className="text-white font-mono text-sm tracking-wide">
+                  Back
+                </span>
+                <motion.span
+                  className="text-white text-lg font-mono"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  {'/'}
+                </motion.span>
+              </Link>
+            ) : (
+              // LIGHT: Clean modern style
+              <Link
+                href="/"
+                className="group inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-300 hover:border-blue-500 hover:shadow-md transition-all duration-300"
+              >
+                <motion.span
+                  animate={{ x: [0, -3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-blue-600 text-lg"
+                >
+                  ←
+                </motion.span>
+                <span className="text-blue-700 font-semibold text-sm">
+                  Back to Home
+                </span>
+              </Link>
+            )}
           </motion.div>
         </div>
 
-        {/* Advanced Page Header */}
+        {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="max-w-6xl mx-auto text-center mb-12"
+          transition={{ duration: 0.8 }}
+          className="max-w-7xl mx-auto mb-16"
         >
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold italic tracking-wide mb-4"
-            animate={{
-              textShadow: [
-                "0 0 20px rgba(0, 255, 255, 0.5)",
-                "0 0 30px rgba(0, 255, 255, 0.7)",
-                "0 0 20px rgba(0, 255, 255, 0.5)",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <h1
+            className={`text-5xl md:text-7xl font-bold mb-4 ${
+              isDark ? "text-white" : "text-gray-900"
+            }`}
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-500">
-              {'<'} About 
-            </span>
-            <span className="text-cyan-400 mx-2">Me</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-300">
-              {'/>'}
-            </span>
-          </motion.h1>
-          
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 w-32 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent mb-6"
-          />
-          
-          <p className="text-gray-300 mt-3 max-w-2xl mx-auto leading-relaxed font-mono text-sm italic">
-            <span className="text-cyan-400">{'// '}</span>
-            Learn more about my journey, hobbies, and passions — what makes me tick as a developer and thinker.
-          </p>
+            About Me
+          </h1>
+          <div className="h-1 w-20 bg-white mb-6" />
+          <p className="text-gray-400 text-lg max-w-2xl">Get to know the person behind the code</p>
         </motion.div>
 
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
-          {/* Left: Profile Card */}
-          <motion.section
+        {/* Main Content Grid */}
+        <div className="max-w-7xl mx-auto space-y-12">
+          {/* Hero Section with Image and Quick Info */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className={`${glass} p-6 lg:col-span-1`}
+            transition={{ duration: 0.8 }}
+            className="grid md:grid-cols-3 gap-8 items-start"
           >
-            <div className="flex flex-col items-center text-center">
-              {/* Profile Image */}
-              <div className="relative w-full h-56 mb-6 overflow-hidden rounded-xl border-2 border-cyan-400/30">
+            {/* Left: Profile Image */}
+            <div className="md:col-span-1">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-white/20 h-96 sticky top-32">
                 <img
                   src={ABOUT.profileImage}
                   alt={ABOUT.name}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-cover"
                 />
-              </div>
-
-              <h2 className="text-2xl font-semibold italic text-cyan-400">{ABOUT.name}</h2>
-              <p className="text-cyan-300 font-medium mt-1 font-mono text-sm">{'<'} {ABOUT.tagline} {'/>'}</p>
-
-              <div className="mt-4 space-y-1 text-sm text-gray-300">
-                <p className="font-mono">
-                  <span className="text-cyan-400">Age:</span> <span className="text-white">{age}</span>
-                </p>
-                <p className="font-mono">
-                  <span className="text-cyan-400">Location:</span> <span className="text-white">{ABOUT.location}</span>
-                </p>
-                <p className="font-mono">
-                  <span className="text-cyan-400">Company:</span> <span className="text-white">{ABOUT.company}</span>
-                </p>
-                <p className="font-mono">
-                  <span className="text-cyan-400">Email:</span>{" "}
-                  <a
-                    href={`mailto:${ABOUT.email}`}
-                    className="text-cyan-300 underline hover:text-cyan-400 transition"
-                  >
-                    {ABOUT.email}
-                  </a>
-                </p>
-                {ABOUT.phone && (
-                  <p className="font-mono">
-                    <span className="text-cyan-400">Phone:</span>{" "}
-                    <a
-                      href={`tel:${ABOUT.phone}`}
-                      className="text-cyan-300 underline hover:text-cyan-400 transition"
-                    >
-                      {ABOUT.phone}
-                    </a>
-                  </p>
-                )}
-              </div>
-
-              {/* Social Links with Icons */}
-              <div className="mt-6 flex flex-wrap justify-center gap-3">
-                {socialItems.map((s) => (
-                  <motion.a
-                    key={s.key}
-                    href={s.href}
-                    target={s.key === "email" ? "_self" : "_blank"}
-                    rel="noreferrer"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 rounded-xl bg-black/40 backdrop-blur-md border border-cyan-400/30 hover:bg-cyan-400/10 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center text-cyan-400"
-                  >
-                    {SocialIcons[s.key as keyof typeof SocialIcons]}
-                  </motion.a>
-                ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
             </div>
-          </motion.section>
 
-          {/* Right: Bio + Skills + Hobbies */}
-          <div className="space-y-6 lg:col-span-2">
-            {/* Bio */}
-            <motion.section
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className={`${glass} p-6`}
-            >
-              <h3 className="text-xl font-bold mb-3 text-cyan-400 italic font-mono">{'<'} Who I Am {'/>'}</h3>
-              <p className="text-gray-200 leading-relaxed tracking-wide whitespace-pre-line">
-                {ABOUT.bio}
-              </p>
-            </motion.section>
+            {/* Right: Quick Info + Bio */}
+            <div className="md:col-span-2 space-y-8">
+              {/* Quick Info Card */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8"
+              >
+                <h2 className="text-3xl font-bold text-white mb-2">{ABOUT.name}</h2>
+                <p className="text-xl text-gray-300 mb-6 italic">{ABOUT.tagline}</p>
+                
+                <div className="grid grid-cols-2 gap-6 mb-8">
+                  <div>
+                    <p className="text-gray-500 text-sm font-mono mb-1">Age</p>
+                    <p className="text-white font-semibold text-lg">{age}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 text-sm font-mono mb-1">Location</p>
+                    <p className="text-white font-semibold text-lg">{ABOUT.location}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-gray-500 text-sm font-mono mb-1">Currently</p>
+                    <p className="text-white font-semibold">{ABOUT.company}</p>
+                  </div>
+                </div>
 
-            {/* Skills */}
-            <motion.section
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className={`${glass} p-6`}
-            >
-              <h3 className="text-xl font-bold mb-3 text-cyan-400 italic font-mono">{'<'} Skills {'/>'}</h3>
-              <div className="flex flex-wrap gap-3">
-                {ABOUT.otherSkills.map((s) => (
-                  <motion.span
-                    key={s}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                    className="rounded-full px-4 py-2 text-sm font-mono italic border border-cyan-400/30 bg-white/5 hover:bg-cyan-400/10 hover:border-cyan-400 transition"
-                  >
-                    {s}
-                  </motion.span>
-                ))}
+                {/* Social Links */}
+                <div className="flex flex-wrap gap-3">
+                  {socialItems.map((s) => (
+                    <motion.a
+                      key={s.key}
+                      href={s.href}
+                      target={s.key === "email" ? "_self" : "_blank"}
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.1 }}
+                      className="w-11 h-11 rounded-lg bg-white/10 border border-white/20 hover:border-white/50 hover:bg-white/20 transition-all flex items-center justify-center text-white"
+                    >
+                      {SocialIcons[s.key as keyof typeof SocialIcons]}
+                    </motion.a>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Main Bio Section */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8"
+              >
+                <h3 className="text-2xl font-bold text-white mb-4">Who I Am</h3>
+                <p className="text-gray-300 leading-relaxed text-justify whitespace-pre-line">
+                  {ABOUT.bio}
+                </p>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Detailed Life Journey Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12"
+          >
+            <h3 className="text-3xl font-bold text-white mb-8">My Journey</h3>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* College Life */}
+              <div className="space-y-4">
+                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <span className="text-2xl">🎓</span> College Years
+                </h4>
+                <p className="text-gray-300 leading-relaxed">
+                  My college journey has been transformative. I've been exposed to cutting-edge technology and innovative thinking. Beyond academics, I've participated in hackathons, tech clubs, and mentored fellow students. These experiences shaped me into a problem-solver who values continuous learning and knowledge sharing.
+                </p>
               </div>
-            </motion.section>
 
-            {/* Hobbies */}
-            <motion.section
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.1, ease: "easeOut" }}
-              className={`${glass} p-6`}
-            >
-              <h3 className="text-xl font-bold mb-5 text-cyan-400 italic font-mono">
-                {'<'} Hobbies & Interests {'/>'}
-              </h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {ABOUT.hobbies.map((h) => (
-                  <motion.div
-                    key={h.name}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative overflow-hidden rounded-xl group cursor-pointer bg-black/30 border border-gray-700 hover:border-cyan-400/50"
-                  >
-                    <div className="w-full h-24 flex items-center justify-center p-4">
-                      <img
-                        src={h.img}
-                        alt={h.name}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
-                    <div className="bg-black/60 p-3 text-center border-t border-gray-700">
-                      <p className="text-cyan-400 text-sm font-mono italic">{h.name}</p>
-                    </div>
-                  </motion.div>
-                ))}
+              {/* Developer Story */}
+              <div className="space-y-4">
+                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <span className="text-2xl">💻</span> Developer Story
+                </h4>
+                <p className="text-gray-300 leading-relaxed">
+                  I started coding as a hobby and it became my passion. What started with simple Python scripts evolved into building full-stack applications. I've worked on diverse projects ranging from web applications to system optimizations. Every project teaches me something new about problem-solving and code craftsmanship.
+                </p>
               </div>
-            </motion.section>
-          </div>
+
+              {/* Thinking & Philosophy */}
+              <div className="space-y-4">
+                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <span className="text-2xl">🧠</span> Deep Thinking
+                </h4>
+                <p className="text-gray-300 leading-relaxed">
+                  I believe in thinking deeply before acting. Whether it's debugging code or understanding complex systems, I take time to analyze, question assumptions, and explore multiple perspectives. This philosophical approach to problem-solving has helped me design elegant solutions to complex problems.
+                </p>
+              </div>
+
+              {/* Hobbies & Interests */}
+              <div className="space-y-4">
+                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
+                  <span className="text-2xl">🎯</span> Beyond Code
+                </h4>
+                <p className="text-gray-300 leading-relaxed">
+                  When I'm not coding, you'll find me reading (philosophy, psychology, technology), writing about ideas that fascinate me, playing chess strategically, watching thought-provoking movies, or gaming. These hobbies help me stay creative and balanced while enriching my perspective on life.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Skills Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12"
+          >
+            <h3 className="text-3xl font-bold text-white mb-8">Skills & Expertise</h3>
+            
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">Technical Specialties</h4>
+                <p className="text-gray-400 text-sm mb-3">Beyond the typical tech stack, I excel in:</p>
+                <div className="flex flex-wrap gap-3">
+                  {ABOUT.otherSkills.map((skill) => (
+                    <motion.span
+                      key={skill}
+                      whileHover={{ scale: 1.05 }}
+                      className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-medium hover:border-white/50 hover:bg-white/20 transition-all text-sm"
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-6">
+                <h4 className="text-lg font-semibold text-white mb-4">What Drives Me</h4>
+                <ul className="space-y-3 text-gray-300">
+                  <li className="flex items-start gap-3">
+                    <span className="text-white font-bold mt-1">→</span>
+                    <span>Creating solutions that make a real impact in people's lives</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-white font-bold mt-1">→</span>
+                    <span>Continuous learning and mastering new technologies</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-white font-bold mt-1">→</span>
+                    <span>Collaborating with intelligent, creative minds</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-white font-bold mt-1">→</span>
+                    <span>Writing clean, maintainable, and elegant code</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Contact CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12 text-center"
+          >
+            <h3 className="text-3xl font-bold text-white mb-4">Let's Connect</h3>
+            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+              I'm always interested in meeting new people, discussing interesting ideas, or collaborating on exciting projects. Feel free to reach out!
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <motion.a
+                href={`mailto:${ABOUT.email}`}
+                whileHover={{ scale: 1.05 }}
+                className="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition-all"
+              >
+                Send Email
+              </motion.a>
+              <motion.a
+                href={`tel:${ABOUT.phone}`}
+                whileHover={{ scale: 1.05 }}
+                className="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-all"
+              >
+                Call Me
+              </motion.a>
+            </div>
+          </motion.div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="relative bg-black/80 backdrop-blur-md border-t border-cyan-400/20 py-12 px-6">
-        <div className="max-w-6xl mx-auto">
+      <footer className="relative bg-black border-t border-white/10 py-12 px-6">
+        <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* About Section */}
             <div>
-              <h3 className="text-xl font-bold text-cyan-400 mb-3 italic font-mono">
+              <h3 className="text-xl font-bold text-white mb-3">
                 {ABOUT.name}
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed font-mono italic">
+              <p className="text-gray-400 text-sm leading-relaxed">
                 {ABOUT.tagline}
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-cyan-400 mb-3 italic font-mono">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400 text-sm font-mono">
+              <h4 className="text-lg font-semibold text-white mb-3">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <Link href="/" className="hover:text-cyan-400 transition italic">
+                  <Link href="/" className="hover:text-white transition">
                     {'>'} Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="#projects" className="hover:text-cyan-400 transition italic">
+                  <Link href="#projects" className="hover:text-white transition">
                     {'>'} Projects
                   </Link>
                 </li>
                 <li>
-                  <Link href="#contact" className="hover:text-cyan-400 transition italic">
+                  <Link href="#contact" className="hover:text-white transition">
                     {'>'} Contact
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="hover:text-cyan-400 transition italic">
+                  <Link href="/about" className="hover:text-white transition">
                     {'>'} About
                   </Link>
                 </li>
@@ -373,12 +460,12 @@ export default function AboutPage() {
 
             {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-semibold text-cyan-400 mb-3 italic font-mono">Get In Touch</h4>
-              <ul className="space-y-2 text-gray-400 text-sm font-mono">
+              <h4 className="text-lg font-semibold text-white mb-3">Get In Touch</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
                   <a
                     href={`mailto:${ABOUT.email}`}
-                    className="hover:text-cyan-400 transition italic"
+                    className="hover:text-white transition"
                   >
                     {ABOUT.email}
                   </a>
@@ -386,24 +473,23 @@ export default function AboutPage() {
                 <li>
                   <a
                     href={`tel:${ABOUT.phone}`}
-                    className="hover:text-cyan-400 transition italic"
+                    className="hover:text-white transition"
                   >
                     {ABOUT.phone}
                   </a>
                 </li>
-                <li className="text-gray-400 italic">{ABOUT.location}</li>
+                <li className="text-gray-400">{ABOUT.location}</li>
               </ul>
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-cyan-400/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500 text-sm font-mono italic">
-              <span className="text-cyan-400">{'// '}</span>
+          <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-600 text-sm">
               © {new Date().getFullYear()} {ABOUT.name}. All rights reserved.
             </p>
-            <p className="text-gray-500 text-sm font-mono italic">
-              <span className="text-cyan-400">{'<'}</span> Built with ❤️ using Next.js & Tailwind CSS <span className="text-cyan-400">{'/>'}</span>
+            <p className="text-gray-600 text-sm">
+              Built with ❤️ using Next.js & Tailwind CSS
             </p>
           </div>
         </div>
