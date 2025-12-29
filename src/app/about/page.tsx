@@ -201,7 +201,7 @@ export default function AboutPage() {
             About Me
           </h1>
           <div className="h-1 w-20 bg-white mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl">Get to know the person behind the code</p>
+          <p className={`text-lg max-w-2xl ${isDark ? "text-gray-400" : "text-gray-700"}`}>Get to know the person behind the code</p>
         </motion.div>
 
         {/* Main Content Grid */}
@@ -215,7 +215,9 @@ export default function AboutPage() {
           >
             {/* Left: Profile Image */}
             <div className="md:col-span-1">
-              <div className="relative rounded-2xl overflow-hidden border-2 border-white/20 h-96 sticky top-32">
+              <div className={`relative rounded-2xl overflow-hidden border-2 h-96 sticky top-32 ${
+                isDark ? "border-white/20" : "border-gray-400"
+              }`}>
                 <img
                   src={ABOUT.profileImage}
                   alt={ABOUT.name}
@@ -232,23 +234,25 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8"
+                className={`rounded-2xl border p-8 ${
+                  isDark ? "border-white/20 bg-white/5 backdrop-blur-md" : "border-gray-300 bg-gray-50"
+                }`}
               >
-                <h2 className="text-3xl font-bold text-white mb-2">{ABOUT.name}</h2>
-                <p className="text-xl text-gray-300 mb-6 italic">{ABOUT.tagline}</p>
+                <h2 className={`text-3xl font-bold mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.name}</h2>
+                <p className={`text-xl mb-6 italic ${isDark ? "text-gray-300" : "text-gray-700"}`}>{ABOUT.tagline}</p>
                 
                 <div className="grid grid-cols-2 gap-6 mb-8">
                   <div>
-                    <p className="text-gray-500 text-sm font-mono mb-1">Age</p>
-                    <p className="text-white font-semibold text-lg">{age}</p>
+                    <p className={`text-sm font-mono mb-1 ${isDark ? "text-gray-500" : "text-gray-600"}`}>Age</p>
+                    <p className={`font-semibold text-lg ${isDark ? "text-white" : "text-gray-900"}`}>{age}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-sm font-mono mb-1">Location</p>
-                    <p className="text-white font-semibold text-lg">{ABOUT.location}</p>
+                    <p className={`text-sm font-mono mb-1 ${isDark ? "text-gray-500" : "text-gray-600"}`}>Location</p>
+                    <p className={`font-semibold text-lg ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.location}</p>
                   </div>
                   <div className="col-span-2">
-                    <p className="text-gray-500 text-sm font-mono mb-1">Currently</p>
-                    <p className="text-white font-semibold">{ABOUT.company}</p>
+                    <p className={`text-sm font-mono mb-1 ${isDark ? "text-gray-500" : "text-gray-600"}`}>Currently</p>
+                    <p className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>{ABOUT.company}</p>
                   </div>
                 </div>
 
@@ -261,7 +265,11 @@ export default function AboutPage() {
                       target={s.key === "email" ? "_self" : "_blank"}
                       rel="noreferrer"
                       whileHover={{ scale: 1.1 }}
-                      className="w-11 h-11 rounded-lg bg-white/10 border border-white/20 hover:border-white/50 hover:bg-white/20 transition-all flex items-center justify-center text-white"
+                      className={`w-11 h-11 rounded-lg border transition-all flex items-center justify-center ${
+                        isDark 
+                          ? "bg-white/10 border-white/20 hover:border-white/50 hover:bg-white/20 text-white"
+                          : "bg-gray-200 border-gray-400 hover:border-gray-600 hover:bg-gray-300 text-gray-900"
+                      }`}
                     >
                       {SocialIcons[s.key as keyof typeof SocialIcons]}
                     </motion.a>
@@ -274,10 +282,12 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8"
+                className={`rounded-2xl border p-8 ${
+                  isDark ? "border-white/20 bg-white/5 backdrop-blur-md" : "border-gray-300 bg-gray-50"
+                }`}
               >
-                <h3 className="text-2xl font-bold text-white mb-4">Who I Am</h3>
-                <p className="text-gray-300 leading-relaxed text-justify whitespace-pre-line">
+                <h3 className={`text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>Who I Am</h3>
+                <p className={`leading-relaxed text-justify whitespace-pre-line ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   {ABOUT.bio}
                 </p>
               </motion.div>
@@ -289,47 +299,49 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12"
+            className={`rounded-2xl border p-8 md:p-12 ${
+              isDark ? "border-white/20 bg-white/5 backdrop-blur-md" : "border-gray-300 bg-gray-50"
+            }`}
           >
-            <h3 className="text-3xl font-bold text-white mb-8">My Journey</h3>
+            <h3 className={`text-3xl font-bold mb-8 ${isDark ? "text-white" : "text-gray-900"}`}>My Journey</h3>
             
             <div className="grid md:grid-cols-2 gap-8">
               {/* College Life */}
               <div className="space-y-4">
-                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
-                  <span className="text-2xl">🎓</span> College Years
+                <h4 className={`text-xl font-semibold flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <span className="text-blue-600 dark:text-cyan-400">→</span> College Years
                 </h4>
-                <p className="text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   My college journey has been transformative. I've been exposed to cutting-edge technology and innovative thinking. Beyond academics, I've participated in hackathons, tech clubs, and mentored fellow students. These experiences shaped me into a problem-solver who values continuous learning and knowledge sharing.
                 </p>
               </div>
 
               {/* Developer Story */}
               <div className="space-y-4">
-                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
-                  <span className="text-2xl">💻</span> Developer Story
+                <h4 className={`text-xl font-semibold flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <span className="text-purple-600 dark:text-cyan-400">→</span> Developer Story
                 </h4>
-                <p className="text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   I started coding as a hobby and it became my passion. What started with simple Python scripts evolved into building full-stack applications. I've worked on diverse projects ranging from web applications to system optimizations. Every project teaches me something new about problem-solving and code craftsmanship.
                 </p>
               </div>
 
               {/* Thinking & Philosophy */}
               <div className="space-y-4">
-                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
-                  <span className="text-2xl">🧠</span> Deep Thinking
+                <h4 className={`text-xl font-semibold flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <span className="text-green-600 dark:text-cyan-400">→</span> Deep Thinking
                 </h4>
-                <p className="text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   I believe in thinking deeply before acting. Whether it's debugging code or understanding complex systems, I take time to analyze, question assumptions, and explore multiple perspectives. This philosophical approach to problem-solving has helped me design elegant solutions to complex problems.
                 </p>
               </div>
 
               {/* Hobbies & Interests */}
               <div className="space-y-4">
-                <h4 className="text-xl font-semibold text-white flex items-center gap-2">
-                  <span className="text-2xl">🎯</span> Beyond Code
+                <h4 className={`text-xl font-semibold flex items-center gap-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <span className="text-orange-600 dark:text-cyan-400">→</span> Beyond Code
                 </h4>
-                <p className="text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   When I'm not coding, you'll find me reading (philosophy, psychology, technology), writing about ideas that fascinate me, playing chess strategically, watching thought-provoking movies, or gaming. These hobbies help me stay creative and balanced while enriching my perspective on life.
                 </p>
               </div>
@@ -341,20 +353,26 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12"
+            className={`rounded-2xl border p-8 md:p-12 ${
+              isDark ? "border-white/20 bg-white/5 backdrop-blur-md" : "border-gray-300 bg-gray-50"
+            }`}
           >
-            <h3 className="text-3xl font-bold text-white mb-8">Skills & Expertise</h3>
+            <h3 className={`text-3xl font-bold mb-8 ${isDark ? "text-white" : "text-gray-900"}`}>Skills & Expertise</h3>
             
             <div className="space-y-6">
               <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Technical Specialties</h4>
-                <p className="text-gray-400 text-sm mb-3">Beyond the typical tech stack, I excel in:</p>
+                <h4 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>Technical Specialties</h4>
+                <p className={`text-sm mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>Beyond the typical tech stack, I excel in:</p>
                 <div className="flex flex-wrap gap-3">
                   {ABOUT.otherSkills.map((skill) => (
                     <motion.span
                       key={skill}
                       whileHover={{ scale: 1.05 }}
-                      className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-medium hover:border-white/50 hover:bg-white/20 transition-all text-sm"
+                      className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                        isDark
+                          ? "bg-white/10 border border-white/20 text-white hover:border-white/50 hover:bg-white/20"
+                          : "bg-white border border-gray-400 text-gray-900 hover:border-gray-600 hover:bg-gray-100"
+                      }`}
                     >
                       {skill}
                     </motion.span>
@@ -362,23 +380,23 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-6">
-                <h4 className="text-lg font-semibold text-white mb-4">What Drives Me</h4>
-                <ul className="space-y-3 text-gray-300">
+              <div className={`border-t pt-6 ${isDark ? "border-white/10" : "border-gray-300"}`}>
+                <h4 className={`text-lg font-semibold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>What Drives Me</h4>
+                <ul className={`space-y-3 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                   <li className="flex items-start gap-3">
-                    <span className="text-white font-bold mt-1">→</span>
+                    <span className={`font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>→</span>
                     <span>Creating solutions that make a real impact in people's lives</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-white font-bold mt-1">→</span>
+                    <span className={`font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>→</span>
                     <span>Continuous learning and mastering new technologies</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-white font-bold mt-1">→</span>
+                    <span className={`font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>→</span>
                     <span>Collaborating with intelligent, creative minds</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-white font-bold mt-1">→</span>
+                    <span className={`font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>→</span>
                     <span>Writing clean, maintainable, and elegant code</span>
                   </li>
                 </ul>
@@ -391,24 +409,34 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md p-8 md:p-12 text-center"
+            className={`rounded-2xl border p-8 md:p-12 text-center ${
+              isDark ? "border-white/20 bg-white/5 backdrop-blur-md" : "border-gray-300 bg-gray-50"
+            }`}
           >
-            <h3 className="text-3xl font-bold text-white mb-4">Let's Connect</h3>
-            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            <h3 className={`text-3xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>Let's Connect</h3>
+            <p className={`mb-8 max-w-2xl mx-auto ${isDark ? "text-gray-300" : "text-gray-700"}`}>
               I'm always interested in meeting new people, discussing interesting ideas, or collaborating on exciting projects. Feel free to reach out!
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <motion.a
                 href={`mailto:${ABOUT.email}`}
                 whileHover={{ scale: 1.05 }}
-                className="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition-all"
+                className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  isDark
+                    ? "bg-white text-black hover:bg-gray-100"
+                    : "bg-gray-900 text-white hover:bg-black"
+                }`}
               >
                 Send Email
               </motion.a>
               <motion.a
                 href={`tel:${ABOUT.phone}`}
                 whileHover={{ scale: 1.05 }}
-                className="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-all"
+                className={`px-8 py-3 border-2 rounded-lg font-semibold transition-all ${
+                  isDark
+                    ? "border-white text-white hover:bg-white/10"
+                    : "border-gray-900 text-gray-900 hover:bg-gray-100"
+                }`}
               >
                 Call Me
               </motion.a>
@@ -418,40 +446,42 @@ export default function AboutPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative bg-black border-t border-white/10 py-12 px-6">
+      <footer className={`relative border-t py-12 px-6 ${
+        isDark ? "bg-black border-white/10" : "bg-white border-gray-300"
+      }`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* About Section */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-3">
+              <h3 className={`text-xl font-bold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>
                 {ABOUT.name}
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className={`text-sm leading-relaxed ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 {ABOUT.tagline}
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-3">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <h4 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Quick Links</h4>
+              <ul className={`space-y-2 text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 <li>
-                  <Link href="/" className="hover:text-white transition">
+                  <Link href="/" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
                     {'>'} Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="#projects" className="hover:text-white transition">
+                  <Link href="#projects" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
                     {'>'} Projects
                   </Link>
                 </li>
                 <li>
-                  <Link href="#contact" className="hover:text-white transition">
+                  <Link href="#contact" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
                     {'>'} Contact
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="hover:text-white transition">
+                  <Link href="/about" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
                     {'>'} About
                   </Link>
                 </li>
@@ -460,12 +490,12 @@ export default function AboutPage() {
 
             {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-3">Get In Touch</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <h4 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Get In Touch</h4>
+              <ul className={`space-y-2 text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 <li>
                   <a
                     href={`mailto:${ABOUT.email}`}
-                    className="hover:text-white transition"
+                    className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
                     {ABOUT.email}
                   </a>
@@ -473,22 +503,24 @@ export default function AboutPage() {
                 <li>
                   <a
                     href={`tel:${ABOUT.phone}`}
-                    className="hover:text-white transition"
+                    className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
                     {ABOUT.phone}
                   </a>
                 </li>
-                <li className="text-gray-400">{ABOUT.location}</li>
+                <li className={isDark ? "text-gray-400" : "text-gray-600"}>{ABOUT.location}</li>
               </ul>
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 text-sm">
+          <div className={`border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-4 ${
+            isDark ? "border-white/10 text-gray-600" : "border-gray-300 text-gray-500"
+          }`}>
+            <p className="text-sm">
               © {new Date().getFullYear()} {ABOUT.name}. All rights reserved.
             </p>
-            <p className="text-gray-600 text-sm">
+            <p className="text-sm">
               Built with ❤️ using Next.js & Tailwind CSS
             </p>
           </div>
