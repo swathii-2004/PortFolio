@@ -51,7 +51,7 @@ const ABOUT = {
       img: "https://png.pngtree.com/png-vector/20240930/ourmid/pngtree-retro-neon-video-game-controller-png-image_13929194.png",
     },
   ],
-  profileImage: "/profile.jpg", 
+  profileImage: "Media.png", 
 };
 
 // Social Media Icons
@@ -145,7 +145,7 @@ export default function AboutPage() {
                   animate={{ x: [0, -4, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  {'<'}
+                  &lt;
                 </motion.span>
                 <span className="text-white font-mono text-sm tracking-wide">
                   Back
@@ -155,7 +155,7 @@ export default function AboutPage() {
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  {'/'}
+                  /
                 </motion.span>
               </Link>
             ) : (
@@ -460,22 +460,22 @@ export default function AboutPage() {
               <ul className={`space-y-2 text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 <li>
                   <Link href="/" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
-                    {'>'} Home
+                    &gt; Home
                   </Link>
                 </li>
                 <li>
                   <Link href="#projects" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
-                    {'>'} Projects
+                    &gt; Projects
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
-                    {'>'} Contact
+                    &gt; Contact
                   </Link>
                 </li>
                 <li>
                   <Link href="/about" className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}>
-                    {'>'} About
+                    &gt; About
                   </Link>
                 </li>
               </ul>
@@ -486,7 +486,7 @@ export default function AboutPage() {
               <h4 className={`text-lg font-semibold mb-3 ${isDark ? "text-white" : "text-gray-900"}`}>Get In Touch</h4>
               <ul className={`space-y-2 text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 <li>
-                  
+                  <a
                     href={`mailto:${ABOUT.email}`}
                     className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
@@ -494,7 +494,7 @@ export default function AboutPage() {
                   </a>
                 </li>
                 <li>
-                  
+                  <a
                     href={`tel:${ABOUT.phone}`}
                     className={`transition ${isDark ? "hover:text-white" : "hover:text-gray-900"}`}
                   >
@@ -521,8 +521,4 @@ export default function AboutPage() {
       </footer>
     </>
   );
-
 }
-
-
-
